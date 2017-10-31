@@ -1,21 +1,21 @@
-require_relative '../Classes/Ability.rb'
+require_relative '../classes/Ability.rb'
 
 # Character.rb
 # Author:: Chase Hennion
-# 
+#
 # The Character class is responsible for maintaining all of the traits and abilities of a
 # generated characters. The Character class is not instantiated directly, rather its ancestors are
 # ( Cleric, Fighter, Rogue, Wizard ) are instantiated.
 
 class Character
-  
+
   attr_reader :strength
   attr_reader :dexterity
   attr_reader :constitution
   attr_reader :intelligence
   attr_reader :wisdom
   attr_reader :charisma
-  
+
   # Creates a new Character instance
   # * name  The character's name
   # * race  The character's race
@@ -38,7 +38,7 @@ class Character
   # * atkBonuses  The character's attack bonuses against certain monsters
   # * defBonuses  The character's defense bonuses against certain entities
   def initialize( name, race, gender, alignment, className, fortSave, reflexSave, willSave,
-                  hp, atkBonus, skillRanks, skills, speed, darkvisionRange, equipProf, 
+                  hp, atkBonus, skillRanks, skills, speed, darkvisionRange, equipProf,
                   immunities, levelBonuses, startBonuses, atkBonuses, defBonuses )
     @name = name
     @race = race
@@ -61,12 +61,12 @@ class Character
     @attackBonuses = atkBonuses
     @defenseBonuses = defBonuses
   end
-  
-  public 
-  
+
+  public
+
   # Generates a formatted string containing the character's traits, abilities, and scores
   def to_s
-    
+
     #Compile string for starting bonuses
     startBon = "Starting Bonuses: \n"
     if @startingBonuses.empty?
@@ -76,7 +76,7 @@ class Character
         startBon += "Initial +#{value} bonus to #{name} \n"
       end
     end
-    
+
     #Compile a string for level bonuses
     levBon = "Level Bonuses: \n"
     if @levelBonuses.empty?
@@ -86,7 +86,7 @@ class Character
               levBon += "+#{value} #{name} per level \n"
       end
     end
-    
+
     #Compile a string for abilities, scores, and modifiers
     abil = "Ability       Score       Modifier \n" +
            "Strength       #{@strength.ptScore}            #{@strength.modifier} \n" +
@@ -95,11 +95,11 @@ class Character
            "Intelligence   #{@intelligence.ptScore}            #{@intelligence.modifier} \n" +
            "Wisdom         #{@wisdom.ptScore}            #{@wisdom.modifier} \n" +
            "Charisma       #{@charisma.ptScore}            #{@charisma.modifier} \n"
-           
-    #Compile a string for saving throws       
+
+    #Compile a string for saving throws
     savThrows = "Saving Throws: \nFortitude Save: #{@fortitudeSave} \nReflex Save: #{@reflexSave} \n" +
                 "Will Save: #{@willSave} \n"
-    
+
     #Compile a string for immunities
     immunities = "Immunities: \n"
     if @immunities.empty?
@@ -108,8 +108,8 @@ class Character
       @immunities.each do |val|
         immunities += "#{val.capitalize} \n"
       end
-    end 
-    
+    end
+
     #Compile a string for attack bonuses vs monsters
     bonVsMonster = "Attack Bonuses vs. Monsters: \n"
     if @attackBonuses.empty?
@@ -119,7 +119,7 @@ class Character
         bonVsMonster += "+#{bonus} attack bonus against #{creature}s \n"
       end
     end
-    
+
     #Compile a string for defense bonuses
     defBonuses = "Defense Bonuses: \n"
     if @defenseBonuses.empty?
@@ -129,12 +129,12 @@ class Character
         defBonuses += "+#{bonus} defense bonus against #{entity}s \n"
       end
     end
-    
+
     #Put together all combat data into a string
     combatData = "Combat Data: \nHP: #{@hp} \nSpeed: #{@speed}ft \nDarkvision Range: #{@darkvisionRange}ft \n\n" +
                  "#{immunities}\nAttack Bonus Modifier: #{@attackBonus} \n\n#{bonVsMonster}\n#{defBonuses}"
-    
-    #Compile a string for equipment proficiencies 
+
+    #Compile a string for equipment proficiencies
     equipProf = "Equipment Proficiencies: \n"
     if @equipmentProficiencies.empty?
       equipProf += "None"
@@ -143,7 +143,7 @@ class Character
         equipProf += "#{prof.capitalize} \n"
       end
     end
-    
+
     #Compile a string for skills
     skills = "Skills: \n"
     if @skills.empty?
@@ -153,17 +153,17 @@ class Character
         skills += "#{skill.capitalize} \n"
       end
     end
-    
+
     divider = "================================================================================\n"
-    
+
     #Put all the strings together
-    string = "Character Name: #{@name.capitalize} \nGender: #{@gender.capitalize} \nRace: #{@race.capitalize} \n" + 
+    string = "Character Name: #{@name.capitalize} \nGender: #{@gender.capitalize} \nRace: #{@race.capitalize} \n" +
              "Class: #{@className.capitalize} \nLevel: 1 \nAlignment: #{@alignment.capitalize} \nSkill Ranks: #{@skillRanks} \n\n" +
              "#{levBon}\n#{startBon}#{divider}#{abil}#{divider}#{savThrows}#{divider}#{combatData}#{divider}" +
              "#{equipProf}#{divider}#{skills}#{divider}"
-             
+
     return string
-    
+
   end
-  
+
 end
